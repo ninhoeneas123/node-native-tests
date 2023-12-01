@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-      "start": "node dist/app.js",
-      "dev": "ts-node src/app.ts",
-      "build": "tsc"
+    "dev": "node --watch src/app.js",
+    "test": "node --test **/*.test.js **/*.spec.js "
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2"
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
