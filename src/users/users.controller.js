@@ -1,38 +1,58 @@
+import prisma from '../prisma/prisma.js';
+import { Exception } from '../utils/exception.js'
+
 
 export class UsersController {
 
-    users = [
-        {
-            "id": "0",
-            "name": "jose",
-            "email": "jose.eneas@gmail.com"
-        }
-    ]
-
-
-    create(data) {
-        if (!this.users) {
-            this.users = []
-        }
-    
+    async create(data) {
         if (!data) {
             return "Data is empty";
         }
-    
-        this.users.push(data);
-        return "User created successfully";
-    }
-    
 
-    find(id) {
-        const user = this.users.find(user => user.id === id)
+        let { name, email, password } = data;
+
+        const user = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password,
+            },
+        });
+
+        return { user: user, message: "User created successfully" };
+    }
+
+
+    async getById(userId) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+        if (!user) {
+            throw new Exception("User not found", 400, "Bad Request")
+        }
         return user
-
     }
 
-    remove(id) {
-        users.filter(user => user.id !== idRemover);
-        return user
+
+    async getAll() {
+        return prisma.user.findMany();
     }
 
+    
+    async remove(userId) {
+        const user = await this.getById(userId)
+
+        if (!user) {
+            throw new Exception("User not found", 400, "Bad Request")
+        }
+
+        await prisma.user.delete({
+            where: {
+                id: userId,
+            }
+        });
+        return "User is removed successfully";
+    }
 }

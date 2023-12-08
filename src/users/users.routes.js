@@ -12,20 +12,32 @@ usersRouters.post("/user/create", async (req, res) => {
         res.json({ message: user });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Erro ao criar usuário' });
+        res.status(500).json({ error: error.message });
     }
 });
 
-usersRouters.get("/user/find", async (req, res) => {
+
+usersRouters.get("/user/find/:id", async (req, res) => {
     try {
-        const { id } = req.body;
-        const user = await usersController.find(id);
+        const { id } = req.params;
+        const user = await usersController.getById(id);
         console.log(user)
         res.json({ user });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Erro ao criar usuário' });
+        res.status(500).json({ error: error.message });
     }
 });
+
+usersRouters.get("/user/find-all", async (req, res) => {
+    try {
+        const user = await usersController.getAll();
+        res.json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 export default usersRouters;

@@ -1,8 +1,10 @@
 import express from 'express';
 import usersRouters  from './users/users.routes.js';
 
+
 const app = express();
-const port = 3000;
+const port = 3001;
+
 
 app.use(
   express.json(),
@@ -10,5 +12,5 @@ app.use(
 );
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}/`);
+  console.log(`Servidor rodando na porta 3000`);
 });
